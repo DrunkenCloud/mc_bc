@@ -14,6 +14,7 @@ class Block {
         this.hash = this.calculateHash();
         this.nonce = 0;
     }
+
     calculateHash() {
         return crypto
             .createHash('sha256')
@@ -24,33 +25,48 @@ class Block {
 
 class Blockchain {
     constructor() {
-        this.chain = [this.createGenesisBlock()];
+        this.chain = [];
         this.pendingTransaction = null;
+
+        this.initializeChain();
     }
 
-    createGenesisBlock() {
-        return new Block('0', 'Genesis Block');
+    initializeChain() {
+        const genesisBlock = new Block('', 'Genesis Block');
+        genesisBlock.hash = genesisBlock.calculateHash();
+        this.chain.push(genesisBlock);
+
+        for (let i = 1; i < 100; i++) {
+            const emptyBlock = new Block('', 'empty');
+            this.chain.push(emptyBlock);
+        }
     }
 
     getLatestBlock() {
-        return this.chain[this.chain.length - 1];
+        return this.chain[this.chain.findIndex(block => block.transaction === 'empty') - 1];
     }
 
-    addBlock(block) {
-        block.previousHash = this.getLatestBlock().hash;
-        block.hash = block.calculateHash();
-        this.chain.push(block);
-    }
-
-    createTransaction(transaction) {
+    addTransaction(transaction) {
         this.pendingTransaction = transaction;
     }
 
     minePendingTransaction() {
         if (this.pendingTransaction) {
-            const block = new Block(this.getLatestBlock().hash, this.pendingTransaction);
-            this.addBlock(block);
-            this.pendingTransaction = null;
+            const emptyBlockIndex = this.chain.findIndex(block => block.transaction === 'empty');
+
+            if (emptyBlockIndex !== -1) {
+                const block = this.chain[emptyBlockIndex];
+                const previousBlock = this.getLatestBlock();
+
+                block.previousHash = previousBlock.hash;
+                block.transaction = this.pendingTransaction;
+                block.timestamp = Date.now();
+                block.hash = block.calculateHash();
+
+                this.pendingTransaction = null;
+            } else {
+                console.log("No empty blocks available.");
+            }
         }
     }
 
@@ -69,6 +85,18 @@ class Blockchain {
         }
         return true;
     }
+
+    resetChain() {
+        this.chain.forEach((block, index) => {
+            if (index !== 0) {
+                block.previousHash = '';
+                block.transaction = 'empty';
+                block.timestamp = null;
+                block.hash = null;
+            }
+        });
+        this.pendingTransaction = null;
+    }
 }
 
 const votingBlockchain = new Blockchain();
@@ -84,7 +112,7 @@ app.post('/api/vote', (req, res) => {
         return res.status(400).send('Please specify a candidate.');
     }
 
-    votingBlockchain.createTransaction(candidate);
+    votingBlockchain.addTransaction(candidate);
     votingBlockchain.minePendingTransaction();
     res.send({ message: 'Vote recorded', candidate });
 });
@@ -92,7 +120,7 @@ app.post('/api/vote', (req, res) => {
 app.get('/api/results', (req, res) => {
     const results = {};
     votingBlockchain.chain.forEach(block => {
-        if (block.transaction) {
+        if (block.transaction && block.transaction !== 'empty') {
             results[block.transaction] = (results[block.transaction] || 0) + 1;
         }
     });
@@ -100,8 +128,7 @@ app.get('/api/results', (req, res) => {
 });
 
 app.post('/api/clear', (req, res) => {
-    votingBlockchain.chain = [votingBlockchain.createGenesisBlock()];
-    votingBlockchain.pendingTransaction = null;
+    votingBlockchain.resetChain();
     res.send({ message: 'Blockchain has been reset.' });
 });
 

@@ -24,7 +24,7 @@ async function updateLeaderboard() {
     const sortedResults = Object.entries(results).sort((a, b) => b[1] - a[1]);
 
     sortedResults.forEach(([candidate, votes]) => {
-        if (candidate != "Genesis Block") {
+        if (candidate != "Genesis Block" && candidate != "empty") {
             const card = document.createElement("div");
             card.className = "leaderboard-card";
             card.innerHTML = `<span>${candidate}</span><span>${votes} votes</span>`;
