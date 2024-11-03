@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blockchain Voting System</title>
+  <link rel="icon" href="./favicon_io/favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Blockchain Voting System</h1>
+  </header>
+
+  <main>
+    <section class="vote-section">
+      <h2>Cast Your Vote</h2>
+      <input type="text" id="candidate" placeholder="Candidate Name">
+      <button onclick="castVote()">Vote</button>
+      <p id="vote-message"></p>
+    </section>
+
+    <section class="leaderboard-section">
+      <h2>Leaderboard</h2>
+      <div id="leaderboard"></div>
+      <button onclick="clearLeaderboard()">Clear Blockchain</button>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

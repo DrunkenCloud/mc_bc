@@ -1,0 +1,12 @@
+{
+  "name": "my-blockchain-voting-app",
+  "version": "1.0.0",
+  "description": "A blockchain-based voting app for deployment on Vercel",
+  "main": "api/vote.js",
+  "scripts": {
+    "start": "node api/vote.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

@@ -1,0 +1,92 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f3e6fa; /* Light purple background */
+  color: #333;
+}
+
+header {
+  background-color: #6a1b9a; /* Dark purple for header */
+  color: #fff;
+  padding: 20px;
+  width: 100%;
+  text-align: center;
+}
+
+h1 {
+  margin: 0;
+}
+
+main {
+  max-width: 600px;
+  width: 100%;
+  margin-top: 30px;
+}
+
+.vote-section, .leaderboard-section {
+  background: #ffffff;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.vote-section input {
+  padding: 10px;
+  width: 80%;
+  border: 1px solid #c7a0cc; /* Light purple border */
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  color: #fff;
+  background-color: #8e24aa; /* Bright purple button */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #6a1b9a; /* Darker purple on hover */
+}
+
+#vote-message {
+  margin-top: 10px;
+  color: green;
+}
+
+.leaderboard-section h2 {
+  margin-bottom: 15px;
+  color: #6a1b9a; /* Purple for section titles */
+}
+
+#leaderboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.leaderboard-card {
+  background-color: #ffffff;
+  border: 1px solid #c7a0cc; /* Light purple border */
+  border-radius: 10px;
+  padding: 15px;
+  margin: 10px 0;
+  width: 80%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+}
